@@ -1,0 +1,12 @@
+{
+  "name": "jj-logger",
+  "version": "1.0.0",
+  "description": "A simple logger",
+  "main": "index.js",
+  "repository": "https://github.com/josejefferson/jj-logger",
+  "author": "Jefferson Dantas",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.2"
+  }
+}
