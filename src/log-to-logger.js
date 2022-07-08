@@ -16,6 +16,7 @@ class Logs {
 			this.logs.unshift(...logs)
 			return logs
 		}).catch((err) => {
+			if (err.noFunction) return err
 			console.error(err)
 			return err
 		})
@@ -27,6 +28,7 @@ class Logs {
 			this.logsForUpload = []
 			return true
 		}).catch((err) => {
+			if (err.noFunction) return err
 			console.error(err)
 			return err
 		})

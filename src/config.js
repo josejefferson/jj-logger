@@ -1,6 +1,6 @@
 const config = {
-	loadFn: async () => {},
-	saveFn: async () => {}
+	loadFn: null,
+	saveFn: null
 }
 
 /**
@@ -36,14 +36,26 @@ function setMongooseModel(model) {
 /**
  * Executa a função de carregamento do banco de dados
  */
-function load(...args) {
+async function load(...args) {
+	if (!config.loadFn) {
+		const err = new Error('No load function')
+		err.noFunction = true
+		throw err
+	}
+
 	return config.loadFn(...args)
 }
 
 /**
  * Executa a função de salvamento do banco de dados
  */
-function save(...args) {
+async function save(...args) {
+	if (!config.saveFn) {
+		const err = new Error('No save function')
+		err.noFunction = true
+		throw err
+	}
+
 	return config.saveFn(...args)
 }
 
