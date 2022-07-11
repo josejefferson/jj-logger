@@ -41,5 +41,6 @@ function parseErrors(contents) {
 
 module.exports = {
 	isLevel,
-	isColor
+	isColor,
+	parseErrors
 }
