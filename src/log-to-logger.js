@@ -1,4 +1,5 @@
 const { load, save } = require('./config')
+const { parseErrors } = require('./helpers')
 
 class Logs {
 	constructor() {
@@ -35,6 +36,10 @@ class Logs {
 	}
 
 	log(opts, contents) {
+		if (opts.level === 'ERROR') {
+			parseErrors(contents)
+		}
+
 		if (opts.ignoreLogger) return false
 		opts.contents = contents
 		this.logs.push(opts)

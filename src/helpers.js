@@ -24,6 +24,21 @@ function isColor(string) {
 	return !!chalk[string]
 }
 
+/**
+ * Adiciona um objeto com as informações do erro no objeto Error
+ */
+function parseErrors(contents) {
+	for (const content of contents) {
+		if (content instanceof Error) {
+			content.errorInfo = {
+				name: content.name,
+				message: content.message,
+				stack: content.stack
+			}
+		}
+	}
+}
+
 module.exports = {
 	isLevel,
 	isColor
