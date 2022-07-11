@@ -1,12 +1,23 @@
 {
-  "name": "jj-logger",
+  "name": "@josejefferson/jj-logger",
   "version": "1.0.1",
   "description": "A simple logger",
   "main": "index.js",
-  "repository": "https://github.com/josejefferson/jj-logger",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josejefferson/jj-logger.git"
+  },
   "author": "Jefferson Dantas",
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2"
+  },
+  "bugs": {
+    "url": "https://github.com/josejefferson/jj-logger/issues"
+  },
+  "homepage": "https://github.com/josejefferson/jj-logger#readme",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
