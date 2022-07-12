@@ -7,8 +7,8 @@ function Logger(...args) {
 	const opts = getOptions(...args)
 
 	function log(...contents) {
-		try { Logs.log(opts, contents) } catch (err) { console.error(err) }
 		try { logToConsole(opts, contents) } catch (err) { console.error(err) }
+		try { Logs.log(opts, contents) } catch (err) { console.error(err) }
 		return opts
 	}
 

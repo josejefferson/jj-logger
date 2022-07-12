@@ -25,16 +25,21 @@ function isColor(string) {
 }
 
 /**
- * Adiciona um objeto com as informações do erro no objeto Error
+ * Insere os detalhes do erro dentro do objeto dele
  */
-function parseErrors(contents) {
-	for (const content of contents) {
+function parseErrors(log) {
+	for (const [i, content] of Object.entries(log.contents)) {
 		if (content instanceof Error) {
-			content.errorInfo = {
+			log.details ??= {}
+			if (typeof log.details !== 'object') continue
+			log.details.errorInfo = {
+				...content,
 				name: content.name,
 				message: content.message,
 				stack: content.stack
 			}
+			log.contents[i] = `${content.name}: ${content.message}`
+			break
 		}
 	}
 }

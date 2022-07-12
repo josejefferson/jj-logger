@@ -36,18 +36,15 @@ class Logs {
 	}
 
 	log(opts, contents) {
-		if (opts.level === 'ERROR') {
-			parseErrors(contents)
-		}
-
 		if (opts.ignoreLogger) return false
 		opts.contents = contents
+		parseErrors(opts)
 		this.logs.push(opts)
 		this.logsForUpload.push(opts)
 	}
 
 	getLogs() {
-		return [...this.logs, ...this.logsForUpload]
+		return this.logs
 	}
 }
 
