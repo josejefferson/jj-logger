@@ -28,7 +28,8 @@ function logToConsole(opts, contents) {
 	let title = null
 	if (typeof opts.title === 'string') {
 		title = chalk.underline(opts.title)
-		if (opts.ignoreLogger) title = '(' + title + ')'
+		if (opts.ignoreLogger) title = '!' + title
+		if (opts.hideConsole) title = '(' + title + ')'
 		title += ':'
 		if (opts.hideProduction) title += '*'
 	}
