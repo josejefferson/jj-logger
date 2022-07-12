@@ -8,12 +8,14 @@ function getOptions(...args) {
 		date: new Date().toISOString()
 	}
 
+	let newOptions = null
+
 	/**
 	 * Se o último argumento for objeto, juntá-lo às opções
 	 * (..., {})
 	 */
 	if (typeof args.at(-1) === 'object') {
-		Object.assign(options, args.at(-1))
+		newOptions = args.at(-1)
 		args = args.slice(0, -1)
 	}
 
@@ -79,6 +81,8 @@ function getOptions(...args) {
 		 */
 		options.title = args[0]
 	}
+
+	Object.assign(options, newOptions)
 
 	return options
 }
