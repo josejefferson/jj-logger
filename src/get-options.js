@@ -22,7 +22,7 @@ function getOptions(...args) {
 		 * Se os três últimos argumentos forem booleanos
 		 * (..., true, false, true)
 		 */
-		options.showProduction = args.at(-3)
+		options.hideProduction = args.at(-3)
 		options.hideConsole = args.at(-2)
 		options.ignoreLogger = args.at(-1)
 		args = args.slice(0, -3)
@@ -31,7 +31,7 @@ function getOptions(...args) {
 		 * Se os dois últimos argumentos forem booleanos
 		 * (..., true, false)
 		 */
-		options.showProduction = args.at(-2)
+		options.hideProduction = args.at(-2)
 		options.hideConsole = args.at(-1)
 		args = args.slice(0, -2)
 	} else if (typeof args.at(-1) === 'boolean') {
@@ -39,7 +39,7 @@ function getOptions(...args) {
 		 * Se os dois últimos argumentos forem booleanos
 		 * (..., true)
 		 */
-		options.showProduction = args.at(-1)
+		options.hideProduction = args.at(-1)
 		args = args.slice(0, -1)
 	}
 

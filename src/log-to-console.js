@@ -6,7 +6,7 @@ const chalk = require('chalk')
 function logToConsole(opts, contents) {
 	// Condições para logar no console
 	if (!process.env.LOG_ALL && opts.hideConsole) return
-	if (!process.env.LOG_ALL && process.env.NODE_ENV === 'production' && !opts.showProduction) return
+	if (!process.env.LOG_ALL && process.env.NODE_ENV === 'production' && opts.hideProduction) return
 	contents = [...contents]
 
 	// Formata as horas

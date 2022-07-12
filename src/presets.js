@@ -2,13 +2,13 @@ const chalk = require('chalk')
 
 const LOG = false
 const NO_LOG = true
-const PROD = true
-const DEV = false
+const PROD = false
+const DEV = true
 const LOGGER = false
 const NO_LOGGER = true
 
 function setPresets(log, Logger, opts) {
-	// log.foo = (...content) => Logger(Level, Color, ShowProduction, HideConsole, IgnoreLogger?, Options)(...content)
+	// log.foo = (...content) => Logger(Level, Color, HideProduction, HideConsole, IgnoreLogger?, Options)(...content)
 	log.success = (...content) => Logger('SUCCESS', 'greenBright',  PROD, LOG,    LOGGER,    opts)(...content)
 	log.warning = (...content) => Logger('WARNING', 'yellowBright', PROD, LOG,    LOGGER,    opts)(...content)
 	log.error   = (...content) => Logger('ERROR',   'redBright',    PROD, LOG,    LOGGER,    opts)(...content)
