@@ -27,7 +27,10 @@ function logToConsole(opts, contents) {
 	// Formata o título
 	let title = null
 	if (typeof opts.title === 'string') {
-		title = chalk.underline(opts.title) + ':'
+		title = chalk.underline(opts.title)
+		if (opts.ignoreLogger) title = '(' + title + ')'
+		title += ':'
+		if (opts.hideProduction) title += '*'
 	}
 
 	// Imprime
