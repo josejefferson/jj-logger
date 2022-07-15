@@ -39,6 +39,7 @@ function parseErrors(log) {
 				stack: content.stack
 			}
 			log.contents[i] = `${content.name}: ${content.message}`
+			log.code ??= content.name
 			break
 		}
 	}
