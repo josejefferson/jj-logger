@@ -16,6 +16,7 @@ function setPresets(log, Logger, opts) {
 	log.debug   = (...content) => Logger('DEBUG',                   DEV,  LOG,    NO_LOGGER, opts)(...content)
 	
 	log.http = (details) => {
+		opts.code ??= `HTTP ${details.status || '???'}`
 		const status = details.status >= 400 ? chalk.white(details.status) : details.status
 		let text = `${details.method} (${status}) ${details.url} - ${details.time}ms`
 		if (details.ips.length) text += ' - ' + details.ips.join(', ')
