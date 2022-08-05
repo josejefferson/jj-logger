@@ -1,6 +1,6 @@
-import chalk from 'chalk'
-import type { Levels, ILog } from './types'
-export declare const LEVELS: Levels[]
+import chalk from 'chalk';
+import type { Levels, ILog } from './types';
+export declare const LEVELS: Levels[];
 /**
  * Retorna true se a string representa um nível
  */

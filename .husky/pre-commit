@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-yarn build && yarn lint --fix && git add lib
+yarn build
+git add lib
+npx lint-staged

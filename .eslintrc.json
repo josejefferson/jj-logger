@@ -6,65 +6,27 @@
 		"es2021": true,
 		"jquery": true
 	},
-	"extends": [
-		"eslint:recommended"
-	],
-	"ignorePatterns": [
-		"*.min.js",
-		"__test__/**"
-	],
+	"extends": ["eslint:recommended"],
+	"ignorePatterns": ["*.min.js"],
 	"rules": {
-		"indent": [
-			"warn",
-			"tab",
-			{
-				"SwitchCase": 1
-			}
-		],
-		"linebreak-style": "off",
-		"quotes": [
-			"warn",
-			"single"
-		],
-		"semi": [
-			"warn",
-			"never"
-		],
-		"no-unused-vars": "off",
-		"no-empty": [
-			"warn",
-			{
-				"allowEmptyCatch": true
-			}
-		],
-		"no-undef": "off",
-		"no-inner-declarations": "off",
-		"camelcase": [
-			"off",
-			{
-				"properties": "always"
-			}
-		],
-		"comma-dangle": [
-			"warn",
-			"never"
-		],
+		"camelcase": ["off", { "properties": "always" }],
 		"no-async-promise-executor": "off",
-		"no-redeclare": "off"
+		"no-empty": ["warn", { "allowEmptyCatch": true }],
+		"no-inner-declarations": "off",
+		"no-redeclare": "off",
+		"no-undef": "off",
+		"no-unused-vars": "off"
 	},
 	"overrides": [
+		// JavaScript
+		{
+			"files": ["*.js", "*.jsx"]
+		},
 		// TypeScript
 		{
-			"files": [
-				"*.ts",
-				"*.tsx"
-			],
-			"extends": [
-				"plugin:@typescript-eslint/recommended"
-			],
-			"plugins": [
-				"@typescript-eslint"
-			],
+			"files": ["*.ts", "*.tsx"],
+			"extends": ["plugin:@typescript-eslint/recommended"],
+			"plugins": ["@typescript-eslint"],
 			"parser": "@typescript-eslint/parser",
 			"rules": {
 				"no-var": "off",
@@ -73,13 +35,6 @@
 				"@typescript-eslint/no-unused-vars": "off",
 				"@typescript-eslint/no-this-alias": "off"
 			}
-		},
-		// JavaScript
-		{
-			"files": [
-				"*.js",
-				"*.jsx"
-			]
 		}
 	]
 }

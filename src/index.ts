@@ -7,8 +7,16 @@ function Logger(...args: any[]) {
 	const opts = getOptions(...args)
 
 	function log(...contents: any[]) {
-		try { logToConsole(opts, contents) } catch (err) { console.error(err) }
-		try { Logs.log(opts, contents) } catch (err) { console.error(err) }
+		try {
+			logToConsole(opts, contents)
+		} catch (err) {
+			console.error(err)
+		}
+		try {
+			Logs.log(opts, contents)
+		} catch (err) {
+			console.error(err)
+		}
 		return opts
 	}
 

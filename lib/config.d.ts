@@ -22,4 +22,4 @@ export declare function load(...args: any[]): Promise<any[]>;
  * Executa a função de salvamento do banco de dados
  */
 export declare function save(...args: any[]): Promise<any>;
-export {}
+export {};

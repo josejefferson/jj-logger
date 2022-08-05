@@ -1,4 +1,4 @@
-import type { ForegroundColor } from 'chalk'
+import type { ForegroundColor } from 'chalk';
 export declare type Levels = 'SUCCESS' | 'ERROR' | 'DEBUG' | 'INFO' | 'WARNING';
 export interface ILog {
     date: string;

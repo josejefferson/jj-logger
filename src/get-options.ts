@@ -20,7 +20,11 @@ export default function getOptions(...args: any[]) {
 		args = args.slice(0, -1)
 	}
 
-	if (typeof args.at(-3) === 'boolean' && typeof args.at(-2) === 'boolean' && typeof args.at(-1) === 'boolean') {
+	if (
+		typeof args.at(-3) === 'boolean' &&
+		typeof args.at(-2) === 'boolean' &&
+		typeof args.at(-1) === 'boolean'
+	) {
 		/**
 		 * Se os três últimos argumentos forem booleanos
 		 * (..., true, false, true)
@@ -29,7 +33,10 @@ export default function getOptions(...args: any[]) {
 		options.hideConsole = args.at(-2)
 		options.ignoreLogger = args.at(-1)
 		args = args.slice(0, -3)
-	} else if (typeof args.at(-2) === 'boolean' && typeof args.at(-1) === 'boolean') {
+	} else if (
+		typeof args.at(-2) === 'boolean' &&
+		typeof args.at(-1) === 'boolean'
+	) {
 		/**
 		 * Se os dois últimos argumentos forem booleanos
 		 * (..., true, false)

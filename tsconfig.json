@@ -1,12 +1,12 @@
 {
-  "compilerOptions": {
-    "outDir": "./lib",
-    "allowJs": true,
-    "target": "es5",
+	"compilerOptions": {
+		"outDir": "./lib",
+		"allowJs": true,
+		"target": "es5",
 		"module": "CommonJS",
-    "noImplicitAny": true,
-    "esModuleInterop": true,
+		"noImplicitAny": true,
+		"esModuleInterop": true,
 		"declaration": true
-  },
-  "include": ["./src/**/*"]
+	},
+	"include": ["./src/**/*"]
 }

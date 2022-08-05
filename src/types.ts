@@ -1,11 +1,6 @@
 import type { ForegroundColor } from 'chalk'
 
-export type Levels =
-	| 'SUCCESS'
-	| 'ERROR'
-	| 'DEBUG'
-	| 'INFO'
-	| 'WARNING'
+export type Levels = 'SUCCESS' | 'ERROR' | 'DEBUG' | 'INFO' | 'WARNING'
 
 export interface ILog {
 	date: string

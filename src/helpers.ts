@@ -1,13 +1,7 @@
 import chalk from 'chalk'
 import type { Levels, ILog } from './types'
 
-export const LEVELS: Levels[] = [
-	'SUCCESS',
-	'ERROR',
-	'DEBUG',
-	'INFO',
-	'WARNING'
-]
+export const LEVELS: Levels[] = ['SUCCESS', 'ERROR', 'DEBUG', 'INFO', 'WARNING']
 
 /**
  * Retorna true se a string representa um nível
@@ -20,7 +14,9 @@ export function isLevel(string: string): string is Levels {
 /**
  * Retorna true se a string representa uma cor
  */
-export function isColor(string: string): string is typeof chalk.ForegroundColor {
+export function isColor(
+	string: string
+): string is typeof chalk.ForegroundColor {
 	if (typeof string !== 'string') return false
 	return string in chalk
 }

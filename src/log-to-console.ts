@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { ILog } from './types'
+import type { ILog } from './types'
 
 /**
  * Printa um log no console
@@ -7,7 +7,12 @@ import { ILog } from './types'
 export default function logToConsole(opts: ILog, contents: any[]) {
 	// Condições para logar no console
 	if (!process.env.LOG_ALL && opts.hideConsole) return
-	if (!process.env.LOG_ALL && process.env.NODE_ENV === 'production' && opts.hideProduction) return
+	if (
+		!process.env.LOG_ALL &&
+		process.env.NODE_ENV === 'production' &&
+		opts.hideProduction
+	)
+		return
 	contents = [...contents]
 
 	// Formata as horas

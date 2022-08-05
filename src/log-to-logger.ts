@@ -18,26 +18,30 @@ export class Logs {
 	}
 
 	load(): Promise<ILog | Error | null> {
-		return load().then((logs) => {
-			this.logs.unshift(...logs)
-			return logs
-		}).catch((err) => {
-			if (err instanceof MissingFunctionError) return err
-			console.error(err)
-			return err
-		})
+		return load()
+			.then((logs) => {
+				this.logs.unshift(...logs)
+				return logs
+			})
+			.catch((err) => {
+				if (err instanceof MissingFunctionError) return err
+				console.error(err)
+				return err
+			})
 	}
 
 	save(): false | Promise<true | Error> {
 		if (!this.logsForUpload.length) return false
-		return save(this.logsForUpload).then(() => {
-			this.logsForUpload = []
-			return true
-		}).catch((err) => {
-			if (err instanceof MissingFunctionError) return err
-			console.error(err)
-			return err
-		})
+		return save(this.logsForUpload)
+			.then(() => {
+				this.logsForUpload = []
+				return true
+			})
+			.catch((err) => {
+				if (err instanceof MissingFunctionError) return err
+				console.error(err)
+				return err
+			})
 	}
 
 	log(opts: ILog, contents: any[]) {
