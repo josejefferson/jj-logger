@@ -1,0 +1,85 @@
+{
+	"root": true,
+	"env": {
+		"browser": true,
+		"commonjs": true,
+		"es2021": true,
+		"jquery": true
+	},
+	"extends": [
+		"eslint:recommended"
+	],
+	"ignorePatterns": [
+		"*.min.js",
+		"__test__/**"
+	],
+	"rules": {
+		"indent": [
+			"warn",
+			"tab",
+			{
+				"SwitchCase": 1
+			}
+		],
+		"linebreak-style": "off",
+		"quotes": [
+			"warn",
+			"single"
+		],
+		"semi": [
+			"warn",
+			"never"
+		],
+		"no-unused-vars": "off",
+		"no-empty": [
+			"warn",
+			{
+				"allowEmptyCatch": true
+			}
+		],
+		"no-undef": "off",
+		"no-inner-declarations": "off",
+		"camelcase": [
+			"off",
+			{
+				"properties": "always"
+			}
+		],
+		"comma-dangle": [
+			"warn",
+			"never"
+		],
+		"no-async-promise-executor": "off",
+		"no-redeclare": "off"
+	},
+	"overrides": [
+		// TypeScript
+		{
+			"files": [
+				"*.ts",
+				"*.tsx"
+			],
+			"extends": [
+				"plugin:@typescript-eslint/recommended"
+			],
+			"plugins": [
+				"@typescript-eslint"
+			],
+			"parser": "@typescript-eslint/parser",
+			"rules": {
+				"no-var": "off",
+				"@typescript-eslint/no-explicit-any": "off",
+				"@typescript-eslint/no-var-requires": "off",
+				"@typescript-eslint/no-unused-vars": "off",
+				"@typescript-eslint/no-this-alias": "off"
+			}
+		},
+		// JavaScript
+		{
+			"files": [
+				"*.js",
+				"*.jsx"
+			]
+		}
+	]
+}

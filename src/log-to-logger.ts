@@ -1,7 +1,12 @@
-const { load, save } = require('./config')
-const { parseErrors } = require('./helpers')
+import { load, save } from './config'
+import { MissingFunctionError } from './errors'
+import { parseErrors } from './helpers'
+import { ILog } from './types'
 
-class Logs {
+export class Logs {
+	logs: ILog[]
+	logsForUpload: ILog[]
+
 	constructor() {
 		this.logs = []
 		this.logsForUpload = []
@@ -12,30 +17,30 @@ class Logs {
 		}
 	}
 
-	load() {
+	load(): Promise<ILog | Error | null> {
 		return load().then((logs) => {
 			this.logs.unshift(...logs)
 			return logs
 		}).catch((err) => {
-			if (err.noFunction) return err
+			if (err instanceof MissingFunctionError) return err
 			console.error(err)
 			return err
 		})
 	}
 
-	save() {
+	save(): false | Promise<true | Error> {
 		if (!this.logsForUpload.length) return false
 		return save(this.logsForUpload).then(() => {
 			this.logsForUpload = []
 			return true
 		}).catch((err) => {
-			if (err.noFunction) return err
+			if (err instanceof MissingFunctionError) return err
 			console.error(err)
 			return err
 		})
 	}
 
-	log(opts, contents) {
+	log(opts: ILog, contents: any[]) {
 		if (opts.ignoreLogger) return false
 		opts.contents = contents
 		parseErrors(opts)
@@ -43,9 +48,9 @@ class Logs {
 		this.logsForUpload.push(opts)
 	}
 
-	getLogs() {
+	getLogs(): ILog[] {
 		return this.logs
 	}
 }
 
-module.exports = new Logs()
+export default new Logs()

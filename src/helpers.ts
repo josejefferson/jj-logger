@@ -1,6 +1,7 @@
-const chalk = require('chalk')
+import chalk from 'chalk'
+import type { Levels, ILog } from './types'
 
-const LEVELS = [
+export const LEVELS: Levels[] = [
 	'SUCCESS',
 	'ERROR',
 	'DEBUG',
@@ -11,23 +12,23 @@ const LEVELS = [
 /**
  * Retorna true se a string representa um nível
  */
-function isLevel(string) {
+export function isLevel(string: string): string is Levels {
 	if (typeof string !== 'string') return false
-	return LEVELS.includes(string.trim().toUpperCase())
+	return string.trim().toUpperCase() in LEVELS
 }
 
 /**
  * Retorna true se a string representa uma cor
  */
-function isColor(string) {
+export function isColor(string: string): string is typeof chalk.ForegroundColor {
 	if (typeof string !== 'string') return false
-	return !!chalk[string]
+	return string in chalk
 }
 
 /**
  * Insere os detalhes do erro dentro do objeto dele
  */
-function parseErrors(log) {
+export function parseErrors(log: ILog) {
 	for (const [i, content] of Object.entries(log.contents)) {
 		if (content instanceof Error) {
 			log.details ??= {}
@@ -38,15 +39,9 @@ function parseErrors(log) {
 				message: content.message,
 				stack: content.stack
 			}
-			log.contents[i] = `${content.name}: ${content.message}`
+			log.contents[+i] = `${content.name}: ${content.message}`
 			log.code ??= content.name
 			break
 		}
 	}
-}
-
-module.exports = {
-	isLevel,
-	isColor,
-	parseErrors
 }

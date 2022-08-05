@@ -1,4 +1,11 @@
-const config = {
+import { MissingFunctionError } from './errors'
+
+type Config = {
+	loadFn: null | ((...args: any[]) => Promise<any[]>)
+	saveFn: null | ((...args: any[]) => Promise<any>)
+}
+
+const config: Config = {
 	loadFn: null,
 	saveFn: null
 }
@@ -6,7 +13,7 @@ const config = {
 /**
  * Define a função de carregamento do banco de dados
  */
-function setLoadFn(fn) {
+export function setLoadFn(fn: Config['loadFn']) {
 	if (typeof fn !== 'function') {
 		throw new Error('Invalid function')
 	}
@@ -17,7 +24,7 @@ function setLoadFn(fn) {
 /**
  * Define a função de salvamento do banco de dados
  */
-function setSaveFn(fn) {
+export function setSaveFn(fn: Config['saveFn']) {
 	if (typeof fn !== 'function') {
 		throw new Error('Invalid function')
 	}
@@ -28,7 +35,7 @@ function setSaveFn(fn) {
 /**
  * Define as funções de carregamento e salvamento do banco de dados MongoDB
  */
-function setMongooseModel(model) {
+export function setMongooseModel(model: any) {
 	config.loadFn = (...args) => model.find(...args)
 	config.saveFn = (...args) => model.create(...args)
 }
@@ -36,11 +43,9 @@ function setMongooseModel(model) {
 /**
  * Executa a função de carregamento do banco de dados
  */
-async function load(...args) {
+export async function load(...args: any[]) {
 	if (!config.loadFn) {
-		const err = new Error('No load function')
-		err.noFunction = true
-		throw err
+		throw new MissingFunctionError('No load function')
 	}
 
 	return config.loadFn(...args)
@@ -49,20 +54,10 @@ async function load(...args) {
 /**
  * Executa a função de salvamento do banco de dados
  */
-async function save(...args) {
+export async function save(...args: any[]) {
 	if (!config.saveFn) {
-		const err = new Error('No save function')
-		err.noFunction = true
-		throw err
+		throw new MissingFunctionError('No save function')
 	}
 
 	return config.saveFn(...args)
-}
-
-module.exports = {
-	load,
-	save,
-	setLoadFn,
-	setSaveFn,
-	setMongooseModel
 }

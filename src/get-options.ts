@@ -1,10 +1,11 @@
-const { isColor, isLevel } = require('./helpers')
+import { isColor, isLevel } from './helpers'
+import type { ILog } from './types'
 
 /**
  * Retorna um objeto de opções do logger de acordo com os argumentos
  */
-function getOptions(...args) {
-	const options = {
+export default function getOptions(...args: any[]) {
+	const options: ILog = {
 		date: new Date().toISOString()
 	}
 
@@ -52,7 +53,7 @@ function getOptions(...args) {
 	for (const [i, arg] of Object.entries(args).reverse()) {
 		if (isColor(arg)) {
 			options.color = arg
-			args.splice(i, 1)
+			args.splice(+i, 1)
 		}
 	}
 
@@ -63,7 +64,7 @@ function getOptions(...args) {
 	for (const [i, arg] of Object.entries(args).reverse()) {
 		if (isLevel(arg)) {
 			options.level = arg
-			args.splice(i, 1)
+			args.splice(+i, 1)
 		}
 	}
 
@@ -86,5 +87,3 @@ function getOptions(...args) {
 
 	return options
 }
-
-module.exports = getOptions
