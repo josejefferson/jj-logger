@@ -8,7 +8,7 @@ export const LEVELS: Levels[] = ['SUCCESS', 'ERROR', 'DEBUG', 'INFO', 'WARNING']
  */
 export function isLevel(string: string): string is Levels {
 	if (typeof string !== 'string') return false
-	return string.trim().toUpperCase() in LEVELS
+	return LEVELS.some((level) => level === string.trim().toUpperCase())
 }
 
 /**
