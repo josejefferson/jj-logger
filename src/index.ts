@@ -3,7 +3,7 @@ import logToConsole from './log-to-console'
 import Logs from './log-to-logger'
 import setPresets, { presets, addPreset } from './presets'
 
-function Logger(...args: any[]) {
+function Logger(...args: any[]): any {
 	const opts = getOptions(...args)
 
 	function log(...contents: any[]) {
