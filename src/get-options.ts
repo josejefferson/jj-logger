@@ -15,41 +15,41 @@ export default function getOptions(...args: any[]) {
 	 * Se o último argumento for objeto, juntá-lo às opções
 	 * (..., {})
 	 */
-	if (typeof args.at(-1) === 'object') {
-		newOptions = args.at(-1)
+	if (typeof args[args.length - 1] === 'object') {
+		newOptions = args[args.length - 1]
 		args = args.slice(0, -1)
 	}
 
 	if (
-		typeof args.at(-3) === 'boolean' &&
-		typeof args.at(-2) === 'boolean' &&
-		typeof args.at(-1) === 'boolean'
+		typeof args[args.length - 3] === 'boolean' &&
+		typeof args[args.length - 2] === 'boolean' &&
+		typeof args[args.length - 1] === 'boolean'
 	) {
 		/**
 		 * Se os três últimos argumentos forem booleanos
 		 * (..., true, false, true)
 		 */
-		options.hideProduction = args.at(-3)
-		options.hideConsole = args.at(-2)
-		options.ignoreLogger = args.at(-1)
+		options.hideProduction = args[args.length - 3]
+		options.hideConsole = args[args.length - 2]
+		options.ignoreLogger = args[args.length - 1]
 		args = args.slice(0, -3)
 	} else if (
-		typeof args.at(-2) === 'boolean' &&
-		typeof args.at(-1) === 'boolean'
+		typeof args[args.length - 2] === 'boolean' &&
+		typeof args[args.length - 1] === 'boolean'
 	) {
 		/**
 		 * Se os dois últimos argumentos forem booleanos
 		 * (..., true, false)
 		 */
-		options.hideProduction = args.at(-2)
-		options.hideConsole = args.at(-1)
+		options.hideProduction = args[args.length - 2]
+		options.hideConsole = args[args.length - 1]
 		args = args.slice(0, -2)
-	} else if (typeof args.at(-1) === 'boolean') {
+	} else if (typeof args[args.length - 1] === 'boolean') {
 		/**
 		 * Se os dois últimos argumentos forem booleanos
 		 * (..., true)
 		 */
-		options.hideProduction = args.at(-1)
+		options.hideProduction = args[args.length - 1]
 		args = args.slice(0, -1)
 	}
 
