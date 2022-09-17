@@ -9,10 +9,6 @@ export class Logs {
 	constructor() {
 		this.logs = []
 		this.load()
-
-		if (process.env.NODE_ENV === 'production') {
-			setInterval(this.save.bind(this), 60000)
-		}
 	}
 
 	load(): Promise<ILog | Error | null> {
