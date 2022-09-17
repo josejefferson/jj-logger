@@ -5,11 +5,9 @@ import { ILog } from './types'
 
 export class Logs {
 	logs: ILog[]
-	logsForUpload: ILog[]
 
 	constructor() {
 		this.logs = []
-		this.logsForUpload = []
 		this.load()
 
 		if (process.env.NODE_ENV === 'production') {
@@ -30,11 +28,10 @@ export class Logs {
 			})
 	}
 
-	save(): false | Promise<true | Error> {
-		if (!this.logsForUpload.length) return false
-		return save(this.logsForUpload)
+	save(log: ILog): false | Promise<true | Error> {
+		if (!log) return false
+		return save(log)
 			.then(() => {
-				this.logsForUpload = []
 				return true
 			})
 			.catch((err) => {
@@ -49,7 +46,7 @@ export class Logs {
 		opts.contents = contents
 		parseErrors(opts)
 		this.logs.push(opts)
-		this.logsForUpload.push(opts)
+		this.save(opts)
 	}
 
 	getLogs(): ILog[] {
