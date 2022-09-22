@@ -3,4 +3,6 @@
 
 yarn build
 git add lib
-npx lint-staged
+yarn lint --fix
+yarn format
+git add .
