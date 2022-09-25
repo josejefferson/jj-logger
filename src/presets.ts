@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { ILog } from './types'
+import type { ILog, Preset, PresetFunction } from './types'
 
 const LOG = false
 const NO_LOG = true
@@ -7,16 +7,6 @@ const PROD = false
 const DEV = true
 const LOGGER = false
 const NO_LOGGER = true
-
-type PresetFunction = (
-	opts: ILog,
-	content: any[]
-) => {
-	params: any[]
-	content?: any[]
-}
-
-type Preset = [string, PresetFunction]
 
 export const presets: Preset[] = [
 	[
@@ -50,7 +40,9 @@ export const presets: Preset[] = [
 			opts.code ??= details.status || '???'
 			const status =
 				details.status >= 400 ? chalk.white(details.status) : details.status
-			let text = `${details.method} (${status}) ${details.url} - ${details.time}ms`
+			let text = `${details.method} (${status}) ${details.url} - ${
+				details.time || '???'
+			}ms`
 			if (details.ips?.length) text += ' - ' + details.ips?.join(', ')
 			if (details.referer) text += ' - ' + details.referer
 
@@ -88,11 +80,25 @@ export const presets: Preset[] = [
 	]
 ]
 
-export function addPreset(name: string, fn: PresetFunction) {
+/**
+ * Add a Preset
+ * @param name Presets name
+ * @param fn Presets function
+ * @example
+ * presets.add('test', (opts, content) => {
+ *   return {
+ *     params: ['Test title', 'green'], // Logger parameters
+ *     content: [] // Replaces the content of the logger (optional)
+ *   }
+ * })
+ *
+ * log().test('Hello World')
+ */
+export function add(name: string, fn: PresetFunction) {
 	presets.push([name, fn])
 }
 
-export default function setPresets(log: any, Logger: any, opts: ILog) {
+export function setOnFn(log: any, Logger: any, opts: ILog) {
 	for (const preset of presets) {
 		const [presetName, presetFunction] = preset
 		log[presetName] = (...content: any[]) => {

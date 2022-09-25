@@ -1,7 +1,7 @@
 import type { ForegroundColor } from 'chalk'
 
+export type Colors = typeof ForegroundColor
 export type Levels = 'SUCCESS' | 'ERROR' | 'DEBUG' | 'INFO' | 'WARNING'
-
 export interface ILog {
 	date: string
 	hideProduction?: boolean
@@ -15,3 +15,29 @@ export interface ILog {
 	contents?: any[]
 	[key: string]: any
 }
+
+export interface ILogger {
+	(...content: any[]): ILog
+	success: (...contents: any[]) => ILog
+	warning: (...contents: any[]) => ILog
+	error: (...contents: any[]) => ILog
+	info: (...contents: any[]) => ILog
+	http: (...contents: any[]) => ILog
+	db: (...contents: any[]) => ILog
+	[key: string]: (...contents: any[]) => ILog
+}
+
+export type Config = {
+	loadFn: null | (() => Promise<any[]>)
+	saveFn: null | ((log: ILog) => Promise<any>)
+}
+
+export type PresetFunction = (
+	opts: ILog,
+	content: any[]
+) => {
+	params: any[]
+	content?: any[]
+}
+
+export type Preset = [string, PresetFunction]

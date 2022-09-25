@@ -1,5 +1,5 @@
 import type { ILog } from './types';
 /**
- * Retorna um objeto de opções do logger de acordo com os argumentos
+ * Returns a logger options object according to the arguments
  */
-export default function getOptions(...args: any[]): ILog;
+export declare function getOptions(...args: any[]): ILog;

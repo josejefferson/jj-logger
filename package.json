@@ -10,8 +10,6 @@
 			"types": "./lib/index.d.ts",
 			"default": "./lib/index.js"
 		},
-		"./config": "./lib/config.js",
-		"./config.js": "./lib/config.js",
 		"./package.json": "./package.json"
 	},
 	"repository": {
@@ -34,10 +32,11 @@
 		"@typescript-eslint/parser": "^5.32.0",
 		"eslint": "^8.21.0",
 		"husky": "^8.0.1",
-		"prettier": "^2.7.1"
+		"prettier": "^2.7.1",
+		"rimraf": "^3.0.2"
 	},
 	"scripts": {
-		"build": "tsc",
+		"build": "rimraf ./lib && tsc",
 		"prepare": "husky install",
 		"lint": "eslint .",
 		"format": "prettier -w ."

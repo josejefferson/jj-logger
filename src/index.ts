@@ -1,31 +1,26 @@
-import getOptions from './get-options'
-import logToConsole from './log-to-console'
-import Logs from './log-to-logger'
-import setPresets, { presets, addPreset } from './presets'
-
-function Logger(...args: any[]): any {
-	const opts = getOptions(...args)
-
-	function log(...contents: any[]) {
-		try {
-			logToConsole(opts, contents)
-		} catch (err) {
-			console.error(err)
-		}
-		try {
-			Logs.log(opts, contents)
-		} catch (err) {
-			console.error(err)
-		}
-		return opts
-	}
-
-	setPresets(log, Logger, opts)
-	return log
+import {
+	setLoadFn,
+	setMongoose,
+	setMongooseModel,
+	setSaveFn,
+	setSequelize,
+	setSequelizeModel
+} from './config'
+import { add, presets as _presets } from './presets'
+export const config = {
+	setLoadFn,
+	setSaveFn,
+	setMongoose,
+	setMongooseModel,
+	setSequelize,
+	setSequelizeModel
 }
-
-Logger.getLogs = Logs.getLogs.bind(Logs)
-Logger.presets = presets
-Logger.addPreset = addPreset
-
-export = Logger
+export * from './console'
+export * as errors from './errors'
+export * from './get-options'
+export * as helpers from './helpers'
+export * from './log'
+export * from './logger'
+export * from './middleware'
+export * from './types'
+export const presets = { presets: _presets, add }

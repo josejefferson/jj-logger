@@ -1,10 +1,10 @@
 import chalk from 'chalk'
-import type { Levels, ILog } from './types'
+import type { ILog, Levels } from './types'
 
 export const LEVELS: Levels[] = ['SUCCESS', 'ERROR', 'DEBUG', 'INFO', 'WARNING']
 
 /**
- * Retorna true se a string representa um nível
+ * Returns True if the string represents a level
  */
 export function isLevel(string: string): string is Levels {
 	if (typeof string !== 'string') return false
@@ -12,7 +12,7 @@ export function isLevel(string: string): string is Levels {
 }
 
 /**
- * Retorna true se a string representa uma cor
+ * Returns True if the string represents a color
  */
 export function isColor(
 	string: string
@@ -22,7 +22,7 @@ export function isColor(
 }
 
 /**
- * Insere os detalhes do erro dentro do objeto dele
+ * Insert the error details within details object
  */
 export function parseErrors(log: ILog) {
 	for (const [i, content] of Object.entries(log.contents)) {

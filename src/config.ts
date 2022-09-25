@@ -1,17 +1,13 @@
 import { MissingFunctionError } from './errors'
+import type { Config, ILog } from './types'
 
-type Config = {
-	loadFn: null | ((...args: any[]) => Promise<any[]>)
-	saveFn: null | ((...args: any[]) => Promise<any>)
-}
-
-const config: Config = {
+export const config: Config = {
 	loadFn: null,
 	saveFn: null
 }
 
 /**
- * Define a função de carregamento do banco de dados
+ * Sets database load function
  */
 export function setLoadFn(fn: Config['loadFn']) {
 	if (typeof fn !== 'function') {
@@ -22,7 +18,7 @@ export function setLoadFn(fn: Config['loadFn']) {
 }
 
 /**
- * Define a função de salvamento do banco de dados
+ * Sets database save function
  */
 export function setSaveFn(fn: Config['saveFn']) {
 	if (typeof fn !== 'function') {
@@ -33,31 +29,117 @@ export function setSaveFn(fn: Config['saveFn']) {
 }
 
 /**
- * Define as funções de carregamento e salvamento do banco de dados MongoDB
+ * Automatically sets Mongoose schema and model
+ * @param mongoose Mongoose
+ * @returns Schema and Model
  */
-export function setMongooseModel(model: any) {
-	config.loadFn = (...args) => model.find(...args)
-	config.saveFn = (...args) => model.create(...args)
+export function setMongoose(mongoose: any) {
+	const existingModel = mongoose.models['Log']
+	if (existingModel) {
+		setMongooseModel(existingModel)
+		return { schema: existingModel.schema, model: existingModel }
+	}
+
+	const schema = new mongoose.Schema(
+		{ date: { type: Date, expires: 604800 } },
+		{ strict: false }
+	)
+
+	const model = mongoose.model('Log', schema)
+	setMongooseModel(model)
+
+	return { schema, model }
 }
 
 /**
- * Executa a função de carregamento do banco de dados
+ * Sets logger functions from an existing Mongoose model
+ * @param model Mongoose model
  */
-export async function load(...args: any[]) {
+export function setMongooseModel(model: any) {
+	config.loadFn = async (...args) => {
+		if (model.db.readyState !== 1) {
+			await new Promise((resolve) => model.db.once('connected', resolve))
+		}
+
+		return model.find(...args)
+	}
+
+	config.saveFn = async (...args) => {
+		if (model.db.readyState !== 1) {
+			await new Promise((resolve) => model.db.once('connected', resolve))
+		}
+
+		return model.create(...args)
+	}
+}
+
+/**
+ * Automatically sets Sequelize model
+ * @param sequelize Sequelize module
+ * @param connection Sequelize connection
+ * @returns Model
+ */
+export function setSequelize(sequelize: any, connection: any) {
+	const model = connection.define('Log', {
+		id: {
+			type: sequelize.DataTypes.INTEGER,
+			autoIncrement: true,
+			allowNull: false,
+			primaryKey: true
+		},
+		content: {
+			type: sequelize.DataTypes.TEXT
+		}
+	})
+
+	setSequelizeModel(model)
+
+	return { model }
+}
+
+/**
+ * Sets logger functions from an existing Sequelize model
+ * @param model Sequelize model
+ */
+export function setSequelizeModel(model: any) {
+	config.loadFn = async () => {
+		const logs = await model.findAll()
+		return logs
+			.map((log: any) => {
+				try {
+					return JSON.parse(log.content)
+				} catch {
+					return null
+				}
+			})
+			.filter((log: any) => log)
+	}
+
+	config.saveFn = (log: ILog) => {
+		return model.create({
+			content: JSON.stringify(log)
+		})
+	}
+}
+
+/**
+ * Run the database load function
+ */
+export async function load() {
 	if (!config.loadFn) {
 		throw new MissingFunctionError('No load function')
 	}
 
-	return config.loadFn(...args)
+	return config.loadFn()
 }
 
 /**
- * Executa a função de salvamento do banco de dados
+ * Run the database save function
  */
-export async function save(...args: any[]) {
+export async function save(log: ILog) {
 	if (!config.saveFn) {
 		throw new MissingFunctionError('No save function')
 	}
 
-	return config.saveFn(...args)
+	return config.saveFn(log)
 }

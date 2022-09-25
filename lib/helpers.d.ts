@@ -1,15 +1,15 @@
 import chalk from 'chalk';
-import type { Levels, ILog } from './types';
+import type { ILog, Levels } from './types';
 export declare const LEVELS: Levels[];
 /**
- * Retorna true se a string representa um nível
+ * Returns True if the string represents a level
  */
 export declare function isLevel(string: string): string is Levels;
 /**
- * Retorna true se a string representa uma cor
+ * Returns True if the string represents a color
  */
 export declare function isColor(string: string): string is typeof chalk.ForegroundColor;
 /**
- * Insere os detalhes do erro dentro do objeto dele
+ * Insert the error details within details object
  */
 export declare function parseErrors(log: ILog): void;

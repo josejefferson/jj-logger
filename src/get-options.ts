@@ -2,9 +2,9 @@ import { isColor, isLevel } from './helpers'
 import type { ILog } from './types'
 
 /**
- * Retorna um objeto de opções do logger de acordo com os argumentos
+ * Returns a logger options object according to the arguments
  */
-export default function getOptions(...args: any[]) {
+export function getOptions(...args: any[]) {
 	const options: ILog = {
 		date: new Date().toISOString()
 	}
@@ -12,7 +12,7 @@ export default function getOptions(...args: any[]) {
 	let newOptions = null
 
 	/**
-	 * Se o último argumento for objeto, juntá-lo às opções
+	 * If the last argument is object, add it to the options
 	 * (..., {})
 	 */
 	if (typeof args[args.length - 1] === 'object') {
@@ -26,7 +26,7 @@ export default function getOptions(...args: any[]) {
 		typeof args[args.length - 1] === 'boolean'
 	) {
 		/**
-		 * Se os três últimos argumentos forem booleanos
+		 * If the last three arguments are Boolean
 		 * (..., true, false, true)
 		 */
 		options.hideProduction = args[args.length - 3]
@@ -38,7 +38,7 @@ export default function getOptions(...args: any[]) {
 		typeof args[args.length - 1] === 'boolean'
 	) {
 		/**
-		 * Se os dois últimos argumentos forem booleanos
+		 * If the last two arguments are boolean
 		 * (..., true, false)
 		 */
 		options.hideProduction = args[args.length - 2]
@@ -46,7 +46,7 @@ export default function getOptions(...args: any[]) {
 		args = args.slice(0, -2)
 	} else if (typeof args[args.length - 1] === 'boolean') {
 		/**
-		 * Se os dois últimos argumentos forem booleanos
+		 * If the last two arguments are boolean
 		 * (..., true)
 		 */
 		options.hideProduction = args[args.length - 1]
@@ -54,7 +54,7 @@ export default function getOptions(...args: any[]) {
 	}
 
 	/**
-	 * Procura uma cor
+	 * Find a color
 	 * (..., 'blue', ...)
 	 */
 	for (const [i, arg] of Object.entries(args).reverse()) {
@@ -65,7 +65,7 @@ export default function getOptions(...args: any[]) {
 	}
 
 	/**
-	 * Procura um nível
+	 * Find a level
 	 * (..., 'ERROR', ...)
 	 */
 	for (const [i, arg] of Object.entries(args).reverse()) {
@@ -77,15 +77,15 @@ export default function getOptions(...args: any[]) {
 
 	if (args.length >= 2) {
 		/**
-		 * Título no primeiro argumento e código no segundo
-		 * ('Título', 'Código', ...)
+		 * Title in the first argument and code in the second
+		 * ('Title', 'Code', ...)
 		 */
 		options.title = args[0]
 		options.code = args[1]
 	} else if (args.length === 1) {
 		/**
-		 * Título no primeiro argumento
-		 * ('Título', ...)
+		 * Title in the first argument
+		 * ('Title', ...)
 		 */
 		options.title = args[0]
 	}
