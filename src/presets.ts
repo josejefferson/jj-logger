@@ -41,7 +41,7 @@ export const presets: Preset[] = [
 			const status =
 				details.status >= 400 ? chalk.white(details.status) : details.status
 			let text = `${details.method} (${status}) ${details.url} - ${
-				details.time || '???'
+				details.time ?? '???'
 			}ms`
 			if (details.ips?.length) text += ' - ' + details.ips?.join(', ')
 			if (details.referer) text += ' - ' + details.referer
