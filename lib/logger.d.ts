@@ -17,7 +17,7 @@ export declare class Logger {
      * @param opts Log options
      * @param contents Contents of log
      */
-    log(opts: ILog, contents: any[]): boolean;
+    log(opts: ILog, contents: any[]): Promise<any>;
     /**
      * Returns the Log array
      * @param fetch Force the fetch of the database logs

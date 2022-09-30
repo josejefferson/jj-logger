@@ -40,17 +40,19 @@ export class Logger {
 	 * @param opts Log options
 	 * @param contents Contents of log
 	 */
-	log(opts: ILog, contents: any[]) {
-		if (opts.ignoreLogger) return false
+	log(opts: ILog, contents: any[]): Promise<any> {
+		if (opts.ignoreLogger) return Promise.reject(false)
 		opts.contents = contents
 		parseErrors(opts)
 		this.logs.push(opts)
-		if (process.env.NODE_ENV !== 'production') return false
-		this.save(opts).catch((err) => {
-			if (err instanceof MissingFunctionError) return err
-			console.error(err)
-			return err
-		})
+		if (process.env.NODE_ENV !== 'production') return Promise.reject(false)
+		return this.save(opts)
+			.then(() => true)
+			.catch((err) => {
+				if (err instanceof MissingFunctionError) return
+				console.error(err)
+				return err
+			})
 	}
 
 	/**

@@ -14,15 +14,21 @@ export interface ILog {
     contents?: any[];
     [key: string]: any;
 }
+export declare type ILogReturnPromise = Promise<any> & {
+    opts?: ILog;
+};
+export declare type ILogReturn = Promise<any> & {
+    opts: ILog;
+};
 export interface ILogger {
-    (...content: any[]): ILog;
-    success: (...contents: any[]) => ILog;
-    warning: (...contents: any[]) => ILog;
-    error: (...contents: any[]) => ILog;
-    info: (...contents: any[]) => ILog;
-    http: (...contents: any[]) => ILog;
-    db: (...contents: any[]) => ILog;
-    [key: string]: (...contents: any[]) => ILog;
+    (...content: any[]): ILogReturn;
+    success: (...contents: any[]) => ILogReturn;
+    warning: (...contents: any[]) => ILogReturn;
+    error: (...contents: any[]) => ILogReturn;
+    info: (...contents: any[]) => ILogReturn;
+    http: (...contents: any[]) => ILogReturn;
+    db: (...contents: any[]) => ILogReturn;
+    [key: string]: (...contents: any[]) => ILogReturn;
 }
 export declare type Config = {
     loadFn: null | (() => Promise<any[]>);
