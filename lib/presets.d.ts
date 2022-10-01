@@ -1,7 +1,8 @@
 import type { ILog, Preset, PresetFunction } from './types';
-export declare const presets: Preset[];
+import { JJLogger } from './jj-logger';
+export declare const defaultPresets: () => Preset[];
 /**
- * Add a Preset
+ * Adds a Preset
  * @param name Presets name
  * @param fn Presets function
  * @example
@@ -14,5 +15,5 @@ export declare const presets: Preset[];
  *
  * log().test('Hello World')
  */
-export declare function add(name: string, fn: PresetFunction): void;
-export declare function setOnFn(log: any, Logger: any, opts: ILog): void;
+export declare function add(this: JJLogger, name: string, fn: PresetFunction): void;
+export declare function setOnFn(this: JJLogger, log: any, Logger: any, opts: ILog): void;

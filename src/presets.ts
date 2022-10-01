@@ -1,5 +1,6 @@
 import chalk from 'chalk'
 import type { ILog, Preset, PresetFunction } from './types'
+import { JJLogger } from './jj-logger'
 
 const LOG = false
 const NO_LOG = true
@@ -8,11 +9,8 @@ const DEV = true
 const LOGGER = false
 const NO_LOGGER = true
 
-export const presets: Preset[] = [
-	[
-		'success',
-		(opts) => ({ params: ['SUCCESS', 'greenBright', PROD, LOG, LOGGER, opts] })
-	],
+export const defaultPresets: () => Preset[] = () => [
+	['success', (opts) => ({ params: ['SUCCESS', 'greenBright', PROD, LOG, LOGGER, opts] })],
 
 	[
 		'warning',
@@ -21,15 +19,9 @@ export const presets: Preset[] = [
 		})
 	],
 
-	[
-		'error',
-		(opts) => ({ params: ['ERROR', 'redBright', PROD, LOG, LOGGER, opts] })
-	],
+	['error', (opts) => ({ params: ['ERROR', 'redBright', PROD, LOG, LOGGER, opts] })],
 
-	[
-		'info',
-		(opts) => ({ params: ['INFO', 'cyanBright', PROD, LOG, LOGGER, opts] })
-	],
+	['info', (opts) => ({ params: ['INFO', 'cyanBright', PROD, LOG, LOGGER, opts] })],
 
 	['debug', (opts) => ({ params: ['DEBUG', DEV, LOG, NO_LOGGER, opts] })],
 
@@ -38,11 +30,8 @@ export const presets: Preset[] = [
 		(opts, content) => {
 			const details = content[0]
 			opts.code ??= details.status || '???'
-			const status =
-				details.status >= 400 ? chalk.white(details.status) : details.status
-			let text = `${details.method} (${status}) ${details.url} - ${
-				details.time ?? '???'
-			}ms`
+			const status = details.status >= 400 ? chalk.white(details.status) : details.status
+			let text = `${details.method} (${status}) ${details.url} - ${details.time ?? '???'}ms`
 			if (details.ips?.length) text += ' - ' + details.ips?.join(', ')
 			if (details.referer) text += ' - ' + details.referer
 
@@ -81,7 +70,7 @@ export const presets: Preset[] = [
 ]
 
 /**
- * Add a Preset
+ * Adds a Preset
  * @param name Presets name
  * @param fn Presets function
  * @example
@@ -94,15 +83,15 @@ export const presets: Preset[] = [
  *
  * log().test('Hello World')
  */
-export function add(name: string, fn: PresetFunction) {
-	presets.push([name, fn])
+export function add(this: JJLogger, name: string, fn: PresetFunction) {
+	this.presets.push([name, fn])
 }
 
-export function setOnFn(log: any, Logger: any, opts: ILog) {
-	for (const preset of presets) {
+export function setOnFn(this: JJLogger, log: any, Logger: any, opts: ILog) {
+	for (const preset of this.presets) {
 		const [presetName, presetFunction] = preset
 		log[presetName] = (...content: any[]) => {
-			return Logger(...presetFunction(opts, content).params)(
+			return Logger.bind(this)(...presetFunction(opts, content).params)(
 				...(presetFunction(opts, content).content || content)
 			)
 		}

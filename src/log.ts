@@ -1,7 +1,6 @@
 import { logToConsole } from './console'
 import { getOptions } from './get-options'
-import { logs } from './logger'
-import { setOnFn as setPresetsOnFn } from './presets'
+import { JJLogger } from './jj-logger'
 import type { ILogger, ILogReturnPromise } from './types'
 
 /**
@@ -11,7 +10,8 @@ import type { ILogger, ILogReturnPromise } from './types'
  * log('Title', 'CODE', 'yellow', 'warning')('Contents here...')
  * log('Title', 'CODE').warning('Contents here...')
  */
-export function log(...args: any[]): ILogger {
+export function log(this: JJLogger, ...args: any[]): ILogger {
+	const _this = this
 	const opts = getOptions(...args)
 
 	const executeLog = <ILogger>function (...contents: any[]) {
@@ -29,7 +29,7 @@ export function log(...args: any[]): ILogger {
 		}
 
 		try {
-			logs.log(opts, contents).then(logSaveResolve)
+			_this.logToLogger(opts, contents).then(logSaveResolve)
 		} catch (err) {
 			console.error(err)
 		}
@@ -37,6 +37,6 @@ export function log(...args: any[]): ILogger {
 		return logReturn
 	}
 
-	setPresetsOnFn(executeLog, log, opts)
+	this.setPresetsOnFn.bind(this)(executeLog, log.bind(this), opts)
 	return executeLog
 }

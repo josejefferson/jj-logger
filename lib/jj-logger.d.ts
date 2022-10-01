@@ -1,0 +1,53 @@
+import { setLoadFn, setMongoose, setMongooseModel, setSaveFn, setSequelize, setSequelizeModel } from './config';
+import { log } from './log';
+import { getLogs, load, logToLogger, save, syncPendingLogs } from './logger';
+import { add, setOnFn } from './presets';
+import { Config, ILog, IOptions, Preset } from './types';
+export declare class JJLogger {
+    logs: ILog[];
+    pendingLogs: ILog[];
+    loadFn: Config['loadFn'];
+    saveFn: Config['saveFn'];
+    presets: Preset[];
+    setLoadFn: typeof setLoadFn;
+    setSaveFn: typeof setSaveFn;
+    setMongoose: typeof setMongoose;
+    setMongooseModel: typeof setMongooseModel;
+    setSequelize: typeof setSequelize;
+    setSequelizeModel: typeof setSequelizeModel;
+    load: typeof load;
+    save: typeof save;
+    logToLogger: typeof logToLogger;
+    syncPendingLogs: typeof syncPendingLogs;
+    getLogs: typeof getLogs;
+    log: typeof log;
+    addPreset: typeof add;
+    setPresetsOnFn: typeof setOnFn;
+    constructor(options?: IOptions);
+}
+export declare const defaultLogger: {
+    instance: JJLogger;
+    presets: Preset[];
+    setLoadFn: typeof setLoadFn;
+    setSaveFn: typeof setSaveFn;
+    setMongoose: typeof setMongoose;
+    setMongooseModel: typeof setMongooseModel;
+    setSequelize: typeof setSequelize;
+    setSequelizeModel: typeof setSequelizeModel;
+    getLogs: typeof getLogs;
+    log: typeof log;
+    addPreset: typeof add;
+};
+export declare function createLogger(options?: IOptions): {
+    instance: JJLogger;
+    presets: Preset[];
+    setLoadFn: typeof setLoadFn;
+    setSaveFn: typeof setSaveFn;
+    setMongoose: typeof setMongoose;
+    setMongooseModel: typeof setMongooseModel;
+    setSequelize: typeof setSequelize;
+    setSequelizeModel: typeof setSequelizeModel;
+    getLogs: typeof getLogs;
+    log: typeof log;
+    addPreset: typeof add;
+};

@@ -1,4 +1,11 @@
 import type { ForegroundColor } from 'chalk';
+export interface IOptions {
+    loadFn?: Config['loadFn'];
+    saveFn?: Config['saveFn'];
+    load?: boolean;
+    presets?: Preset[];
+    customPresets?: Preset[];
+}
 export declare type Colors = typeof ForegroundColor;
 export declare type Levels = 'SUCCESS' | 'ERROR' | 'DEBUG' | 'INFO' | 'WARNING';
 export interface ILog {

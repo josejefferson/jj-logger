@@ -32,9 +32,7 @@ test('other logs', () => {
 		contents: ['Content1', 'Content2']
 	})
 
-	expect(
-		log('red', 'Title', 'CODE')('Content1', 'Content2').opts
-	).toMatchObject({
+	expect(log('red', 'Title', 'CODE')('Content1', 'Content2').opts).toMatchObject({
 		title: 'Title',
 		code: 'CODE',
 		color: 'red',
@@ -82,9 +80,7 @@ test('other logs', () => {
 		color: 'red'
 	})
 
-	expect(log('Title', 'Code', true, 'red')().opts).not.toHaveProperty(
-		'hideProduction'
-	)
+	expect(log('Title', 'Code', true, 'red')().opts).not.toHaveProperty('hideProduction')
 
 	expect(log('Title', { title: 'Other title' })().opts).toMatchObject({
 		title: 'Other title'
@@ -105,9 +101,7 @@ test('other logs', () => {
 		color: 'redBright'
 	})
 
-	expect(
-		log('Title').error('BEFORE', new Error('Test Error'), 'AFTER').opts
-	).toMatchObject({
+	expect(log('Title').error('BEFORE', new Error('Test Error'), 'AFTER').opts).toMatchObject({
 		title: 'Title',
 		contents: ['BEFORE', 'Error: Test Error', 'AFTER'],
 		level: 'ERROR',

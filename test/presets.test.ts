@@ -58,18 +58,9 @@ test('presets', () => {
 		contents: ['Before content']
 	})
 
-	expect(presets.presets[presets.presets.length - 3]).toEqual([
-		'test1',
-		presetFn1
-	])
-	expect(presets.presets[presets.presets.length - 2]).toEqual([
-		'test2',
-		presetFn2
-	])
-	expect(presets.presets[presets.presets.length - 1]).toEqual([
-		'test3',
-		presetFn3
-	])
+	expect(presets.presets[presets.presets.length - 3]).toEqual(['test1', presetFn1])
+	expect(presets.presets[presets.presets.length - 2]).toEqual(['test2', presetFn2])
+	expect(presets.presets[presets.presets.length - 1]).toEqual(['test3', presetFn3])
 
 	expect(() => log().inexistent()).toThrow(TypeError)
 })
