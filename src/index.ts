@@ -1,19 +1,19 @@
 import {
-	setLoadFn,
-	setMongoose,
-	setMongooseModel,
-	setSaveFn,
-	setSequelize,
-	setSequelizeModel
+  setLoadFn,
+  setMongoose,
+  setMongooseModel,
+  setSaveFn,
+  setSequelize,
+  setSequelizeModel
 } from './config'
 import { add, presets as _presets } from './presets'
 export const config = {
-	setLoadFn,
-	setSaveFn,
-	setMongoose,
-	setMongooseModel,
-	setSequelize,
-	setSequelizeModel
+  setLoadFn,
+  setSaveFn,
+  setMongoose,
+  setMongooseModel,
+  setSequelize,
+  setSequelizeModel
 }
 export * from './console'
 export * as errors from './errors'

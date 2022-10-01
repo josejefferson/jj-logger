@@ -12,31 +12,31 @@ import type { ILogger, ILogReturnPromise } from './types'
  * log('Title', 'CODE').warning('Contents here...')
  */
 export function log(...args: any[]): ILogger {
-	const opts = getOptions(...args)
+  const opts = getOptions(...args)
 
-	const executeLog = <ILogger>function (...contents: any[]) {
-		let logSaveResolve: (value?: unknown) => void
-		const logReturn: ILogReturnPromise = new Promise((resolve) => {
-			logSaveResolve = resolve
-		})
+  const executeLog = <ILogger>function (...contents: any[]) {
+    let logSaveResolve: (value?: unknown) => void
+    const logReturn: ILogReturnPromise = new Promise((resolve) => {
+      logSaveResolve = resolve
+    })
 
-		logReturn.opts = opts
+    logReturn.opts = opts
 
-		try {
-			logToConsole(opts, contents)
-		} catch (err) {
-			console.error(err)
-		}
+    try {
+      logToConsole(opts, contents)
+    } catch (err) {
+      console.error(err)
+    }
 
-		try {
-			logs.log(opts, contents).then(logSaveResolve)
-		} catch (err) {
-			console.error(err)
-		}
+    try {
+      logs.log(opts, contents).then(logSaveResolve)
+    } catch (err) {
+      console.error(err)
+    }
 
-		return logReturn
-	}
+    return logReturn
+  }
 
-	setPresetsOnFn(executeLog, log, opts)
-	return executeLog
+  setPresetsOnFn(executeLog, log, opts)
+  return executeLog
 }
