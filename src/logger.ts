@@ -5,24 +5,27 @@ import type { ILog } from './types'
 
 export class Logger {
 	logs: ILog[]
+	pendingLogs: ILog[]
 
 	constructor() {
 		this.logs = []
-		this.load().catch((err) => {
-			if (err instanceof MissingFunctionError) return err
-			console.error(err)
-			return err
-		})
+		this.pendingLogs = []
 	}
 
 	/**
 	 * Loads the database logs
+	 * @param sync Send failed logs to the database
 	 * @returns Logs
 	 */
-	async load(): Promise<ILog[] | null> {
+	async load(sync = true): Promise<ILog[] | null> {
+		if (sync) await this.syncPendingLogs()
 		const logs = await load()
 		this.logs = logs
-		return logs
+		this.logs.sort((a, b) => {
+			if (!a || !b || (a && !a.date) || (b && !b.date)) return 0
+			return Number(new Date(b.date)) - Number(new Date(a.date))
+		})
+		return this.logs
 	}
 
 	/**
@@ -40,19 +43,31 @@ export class Logger {
 	 * @param opts Log options
 	 * @param contents Contents of log
 	 */
-	log(opts: ILog, contents: any[]): Promise<any> {
-		if (opts.ignoreLogger) return Promise.reject(false)
-		opts.contents = contents
+	async log(opts: ILog, contents?: any[]): Promise<any> {
+		if (opts.ignoreLogger) return Promise.resolve(false)
+		if (contents) opts.contents = contents
 		parseErrors(opts)
-		this.logs.push(opts)
-		if (process.env.NODE_ENV !== 'production') return Promise.reject(false)
-		return this.save(opts)
-			.then(() => true)
-			.catch((err) => {
-				if (err instanceof MissingFunctionError) return
-				console.error(err)
-				return err
-			})
+		this.logs.unshift(opts)
+		if (process.env.NODE_ENV !== 'production') return Promise.resolve(false)
+		try {
+			await this.save(opts)
+			return true
+		} catch (err) {
+			this.pendingLogs.push(opts)
+			if (err instanceof MissingFunctionError) return
+			console.error(err)
+			return err
+		}
+	}
+
+	/**
+	 * Sends the failed logs to the database
+	 */
+	async syncPendingLogs() {
+		const pendingLogs = [...this.pendingLogs]
+		this.pendingLogs = []
+		const promises = pendingLogs.map(this.log.bind(this))
+		return Promise.all(promises)
 	}
 
 	/**

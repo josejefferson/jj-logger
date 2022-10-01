@@ -1,12 +1,14 @@
 import type { ILog } from './types';
 export declare class Logger {
     logs: ILog[];
+    pendingLogs: ILog[];
     constructor();
     /**
      * Loads the database logs
+     * @param sync Send failed logs to the database
      * @returns Logs
      */
-    load(): Promise<ILog[] | null>;
+    load(sync?: boolean): Promise<ILog[] | null>;
     /**
      * Saves the log into the database
      * @param log Log
@@ -17,7 +19,11 @@ export declare class Logger {
      * @param opts Log options
      * @param contents Contents of log
      */
-    log(opts: ILog, contents: any[]): Promise<any>;
+    log(opts: ILog, contents?: any[]): Promise<any>;
+    /**
+     * Sends the failed logs to the database
+     */
+    syncPendingLogs(): Promise<unknown[]>;
     /**
      * Returns the Log array
      * @param fetch Force the fetch of the database logs

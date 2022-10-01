@@ -1,5 +1,5 @@
 import { isColor, isLevel } from './helpers'
-import type { ILog } from './types'
+import type { ILog, Levels } from './types'
 
 /**
  * Returns a logger options object according to the arguments
@@ -70,7 +70,7 @@ export function getOptions(...args: any[]) {
 	 */
 	for (const [i, arg] of Object.entries(args).reverse()) {
 		if (isLevel(arg)) {
-			options.level = arg
+			options.level = arg.toUpperCase() as Levels
 			args.splice(+i, 1)
 		}
 	}

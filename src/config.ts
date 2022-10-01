@@ -10,7 +10,7 @@ export const config: Config = {
  * Sets database load function
  */
 export function setLoadFn(fn: Config['loadFn']) {
-	if (typeof fn !== 'function') {
+	if (typeof fn !== 'function' && fn !== null) {
 		throw new Error('Invalid function')
 	}
 
@@ -21,7 +21,7 @@ export function setLoadFn(fn: Config['loadFn']) {
  * Sets database save function
  */
 export function setSaveFn(fn: Config['saveFn']) {
-	if (typeof fn !== 'function') {
+	if (typeof fn !== 'function' && fn !== null) {
 		throw new Error('Invalid function')
 	}
 
