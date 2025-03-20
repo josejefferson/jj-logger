@@ -20,6 +20,7 @@ export function log(...args: any[]): ILogger {
       logSaveResolve = resolve
     })
 
+    opts.date = new Date().toISOString()
     logReturn.opts = opts
 
     try {

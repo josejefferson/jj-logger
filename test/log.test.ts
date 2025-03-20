@@ -1,6 +1,10 @@
 // @ts-nocheck
 import { log } from '../src'
 
+Object.defineProperty(global, 'performance', {
+  writable: true
+})
+
 beforeAll(() => {
   jest.spyOn(console, 'log').mockImplementation(() => {})
   jest.useFakeTimers().setSystemTime(new Date('2000-01-01T00:00:00.000Z'))
@@ -133,4 +137,17 @@ test('other logs', () => {
       }
     }
   })
+})
+
+test('logger instance', () => {
+  const loggerInstance = log('Title')
+
+  jest.useFakeTimers().setSystemTime(new Date('2000-01-01T00:01:00.000Z'))
+  expect(loggerInstance().opts).toMatchObject({
+    date: '2000-01-01T00:01:00.000Z',
+    title: 'Title',
+    contents: []
+  })
+
+  jest.useFakeTimers().setSystemTime(new Date('2000-01-01T00:00:00.000Z'))
 })
